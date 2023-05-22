@@ -19,7 +19,11 @@ Auth::routes();
  
 Route::get('/', [CommonController::class, 'home']);
 Route::get('/dokumen', [CommonController::class, 'dokumen']);
+Route::post('/dokumen/add', [CommonController::class, 'dokumen_add']);
 Route::get('/dokumen/check', [CommonController::class, 'check']);
 Route::get('/dokumen/history', [CommonController::class, 'history']);
 Route::get('/profile', [CommonController::class, 'profile']);
+
+Route::get('/testt', [CommonController::class, 'test']);
+Route::get('/phpinfo', [CommonController::class, 'phpinfo']);
 

@@ -1,8 +1,11 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use phpseclib3\Crypt\DSA;
 
 return new class extends Migration
 {
@@ -13,15 +16,32 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('role')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('privateKey');
-            $table->string('publicKey');
+            $table->text('privateKey')->nullable();
+            $table->text('publicKey')->nullable();
             $table->rememberToken();
             $table->timestamps();
-        });
+        }); 
+ 
+        $private = DSA::createKey(2048, 160);
+        $public = $private->getPublicKey();
+
+        DB::table('users')->insert(
+            array(
+                [
+                    'role' => '1',
+                    'name' => 'ADMIN',
+                    'email' => 'ADMIN@gmail.com',
+                    'password' => bcrypt('ADMIN'),
+                    'privateKey' => $private,
+                    'publicKey' => $public,
+                ]
+            )
+        );
     }
 
     /**

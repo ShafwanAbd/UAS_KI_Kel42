@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use phpseclib3\Crypt\DSA;
 
+
 class RegisterController extends Controller
 {
     /*
@@ -64,15 +65,11 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-    {
-        $private = ::createKey(2048, 160);
-
-        return User::create([
+    {  
+        return User::create([ 
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'privateKey' => $private,
-            'publicKey' => $private->getPublicKey(),
+            'password' => Hash::make($data['password'])
         ]);
     }
 }
