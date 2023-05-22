@@ -90,10 +90,6 @@
                             decoder.stop().play();
                         });
 
-                        $('select').on('change', function () {
-                            decoder.stop().play();
-                        });
-
                         $.extend({
                             redirectPost: function (location) {
                                 var form = '';
