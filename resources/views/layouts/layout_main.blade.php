@@ -13,7 +13,8 @@
     <script src="{{ asset('js/instascan.min.js') }}"></script>
     <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/qrcodelib.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/webcodecamjquery.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/webcodecamjquery.js')}}"></script> 
+
 
     <title>Document</title>
 </head>

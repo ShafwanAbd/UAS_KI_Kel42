@@ -41,9 +41,9 @@
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Lihat QR Code</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div> 
+                        </div>  
                         <div class="modal-body mx-auto py-auto"> 
-                        {!! QrCode::size(300)->generate($val->noSertifikat); !!}
+                            {!! QrCode::size(300)->generate(url('/dokumen/check').'/'.$val->noSertifikat); !!}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button> 
@@ -64,21 +64,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div> 
                 <div class="modal-body">
-                    <div class="text-center">
-                        <canvas class="w-100"></canvas>
-                        <select></select>
-                    </div> 
-                    
-                    <script type="text/javascript">
+                <div class="text-center">
+                    <canvas class="w-100"></canvas>
+                    <select></select>
+                </div> 
+                <script type="text/javascript">
+                    $(document).ready(function () {
                         var arg = {
-                            resultFunction: function(result) {
-                                //$('.hasilscan').append($('<input name="noijazah" value=' + result.code + ' readonly><input type="submit" value="Cek"/>'));
-                                // $.post("../cek.php", { noijazah: result.code} );
-                                var redirect = '{{ url("/dokumen/check") }}';
-                                $.redirectPost(redirect, {noSertifikat: result.code});
+                            resultFunction: function (result) {
+                                var qrCodeValue = result.code;
+                                var qrCodeParts = qrCodeValue.split('/');
+                                var lastValue = qrCodeParts[qrCodeParts.length - 1];
+                                var redirect = '{{ url("/dokumen/check") }}' + '/' + lastValue;
+                                $.redirectPost(redirect);
                             }
                         };
-                        
+
                         var decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
                         decoder.buildSelectMenu("select");
                         decoder.play();
@@ -89,19 +90,18 @@
                             decoder.stop().play();
                         });
 
-                        // jquery extend function
-                        $.extend(
-                        {
-                            redirectPost: function(location, args)
-                            {
+                        $('select').on('change', function () {
+                            decoder.stop().play();
+                        });
+
+                        $.extend({
+                            redirectPost: function (location) {
                                 var form = '';
-                                $.each( args, function( key, value ) {
-                                    form += '<input type="hidden" name="'+key+'" value="'+value+'">';
-                                });
-                                $('<form action="'+location+'" method="GET">'+form+'</form>').appendTo('body').submit();
+                                $('<form action="' + location + '" method="GET">' + form + '</form>').appendTo('body').submit();
                             }
-                        }); 
-                    </script>
+                        });
+                    });
+                </script>
 
                 </div>
                 <div class="modal-footer">

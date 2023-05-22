@@ -23,19 +23,32 @@ class CommonController extends Controller
         ));
     }
 
-    public function check(){   
+    public function getQRC(){
         
-        // <td scope="col">{{ $val->noPeserta }}</td>
-        // <td scope="col">{{ $val->nama }}</td>
-        // <td scope="col">{{ $val->instansi }}</td>
-        // <td scope="col">{{ $val->tanggalTerbit }}</td>
-        // <td scope="col">{{ $val->noSertifikat }}</td>
-        // <td scope="col">{{ $val->namaPelatihan }}</td>
-        // <td scope="col">{{ $val->keikutsertaan }}</td>
-        // <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button>
+        $tempdir = "temp/";
+                            
+        if (!file_exists($tempdir)){
+            mkdir($tempdir);
+        };
 
+        include public_path('phpqrcode/qrlib.php');
+    
+        $isi_teks = "hallooo";
+        $namafile = "helooo".".png";
+        $quality = 'H'; //ada 4 pilihan, L (Low), M(Medium), Q(Good), H(High)
+        $ukuran = 5; //batasan 1 paling kecil, 10 paling besar
+        $padding = 2;
 
-        return view('check');
+        QRCode::png($isi_teks,$tempdir.$namafile,$quality,$ukuran,$padding);
+    }
+
+    public function check(string $noSertifikat){   
+        
+        $model1 = sertifikatData::where('noSertifikat', $noSertifikat)->first(); 
+
+        return view('check', compact(
+            'model1'
+        ));
     }
 
     public function history(){  
