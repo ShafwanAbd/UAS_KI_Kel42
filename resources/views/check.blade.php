@@ -2,6 +2,9 @@
 
 @section('content')
 
+<h1>Codingy</h1>
+<h6>Jl. Siliwangi, Planet Mars, Universe Milky Way</h6>
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -18,15 +21,9 @@
     </thead>
     <tbody> 
         <tr>
-            <td scope="col">1</td>
-            <td scope="col">{{ $val->noPeserta }}</td>
-            <td scope="col">{{ $val->nama }}</td>
-            <td scope="col">{{ $val->instansi }}</td>
-            <td scope="col">{{ $val->tanggalTerbit }}</td>
-            <td scope="col">{{ $val->noSertifikat }}</td>
-            <td scope="col">{{ $val->namaPelatihan }}</td>
-            <td scope="col">{{ $val->keikutsertaan }}</td>
-            <td scope="col"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button></td>
+            <td scope="col">1</td> 
+            <td scope="col">
+            </td>
         </tr>  
     </tbody> 
 </table>

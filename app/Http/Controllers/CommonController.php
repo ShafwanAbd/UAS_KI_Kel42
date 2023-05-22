@@ -23,7 +23,18 @@ class CommonController extends Controller
         ));
     }
 
-    public function check(){  
+    public function check(){   
+        
+        // <td scope="col">{{ $val->noPeserta }}</td>
+        // <td scope="col">{{ $val->nama }}</td>
+        // <td scope="col">{{ $val->instansi }}</td>
+        // <td scope="col">{{ $val->tanggalTerbit }}</td>
+        // <td scope="col">{{ $val->noSertifikat }}</td>
+        // <td scope="col">{{ $val->namaPelatihan }}</td>
+        // <td scope="col">{{ $val->keikutsertaan }}</td>
+        // <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button>
+
+
         return view('check');
     }
 

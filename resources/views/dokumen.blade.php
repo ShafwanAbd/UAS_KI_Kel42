@@ -55,6 +55,62 @@
         </tbody>
     </table>
 
+    <!-- Modal Scan -->
+    <div class="modal fade" id="ModalScan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR Code</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> 
+                <div class="modal-body">
+                    <div class="text-center">
+                        <canvas class="w-100"></canvas>
+                        <select></select>
+                    </div> 
+                    
+                    <script type="text/javascript">
+                        var arg = {
+                            resultFunction: function(result) {
+                                //$('.hasilscan').append($('<input name="noijazah" value=' + result.code + ' readonly><input type="submit" value="Cek"/>'));
+                                // $.post("../cek.php", { noijazah: result.code} );
+                                var redirect = '{{ url("/dokumen/check") }}';
+                                $.redirectPost(redirect, {noSertifikat: result.code});
+                            }
+                        };
+                        
+                        var decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
+                        decoder.buildSelectMenu("select");
+                        decoder.play();
+                        /*  Without visible select menu
+                            decoder.buildSelectMenu(document.createElement('select'), 'environment|back').init(arg).play();
+                        */
+                        $('select').on('change', function(){
+                            decoder.stop().play();
+                        });
+
+                        // jquery extend function
+                        $.extend(
+                        {
+                            redirectPost: function(location, args)
+                            {
+                                var form = '';
+                                $.each( args, function( key, value ) {
+                                    form += '<input type="hidden" name="'+key+'" value="'+value+'">';
+                                });
+                                $('<form action="'+location+'" method="GET">'+form+'</form>').appendTo('body').submit();
+                            }
+                        }); 
+                    </script>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button> 
+                </div>  
+            </div>
+        </div>
+    </div> 
+
     <!-- Modal Tambah -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
