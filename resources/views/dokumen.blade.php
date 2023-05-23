@@ -44,7 +44,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>  
                         <div class="modal-body mx-auto py-auto"> 
-                            {!! QrCode::size(300)->errorCorrection('H')->generate(url('/dokumen/check').'/'.$val->noSertifikat); !!}
+                            {!! QrCode::size(300)->errorCorrection('M')->generate(url('/dokumen/check').'/'.$val->noSertifikat); !!}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button> 
