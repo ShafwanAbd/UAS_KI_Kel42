@@ -28,7 +28,7 @@ class CommonController extends Controller
     public function check(Request $request){    
         
         $model1 = sertifikatData::where('noSertifikat', $request->noSertifikat)->first();  
-        $dsa = DSA::loadPublicKey(Auth::user()->publicKey); 
+        $dsa = DSA::loadPublicKey(Auth::user()->publicKey);  
 
         $encryptedMessage = $model1->encryptedMessage;
 
