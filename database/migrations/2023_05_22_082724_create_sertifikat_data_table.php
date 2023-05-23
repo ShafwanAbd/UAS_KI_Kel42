@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('noSertifikat');
             $table->string('namaPelatihan');
             $table->string('keikutsertaan'); 
+            $table->binary('encryptedMessage'); 
             $table->binary('sign')->nullable(); 
             $table->timestamps();
         });

@@ -23,6 +23,7 @@ Route::post('/dokumen/add', [CommonController::class, 'dokumen_add']);
 Route::get('/dokumen/check', [CommonController::class, 'check']);
 Route::get('/dokumen/history', [CommonController::class, 'history']);
 Route::get('/profile', [CommonController::class, 'profile']);
+Route::post('/profile/update', [CommonController::class, 'user_update']); 
 
 Route::get('/testt', [CommonController::class, 'test']);
 Route::get('/phpinfo', [CommonController::class, 'phpinfo']);

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->text('privateKey')->nullable();
             $table->text('publicKey')->nullable();
+            $table->text('encryptionKey')->nullable();
             $table->rememberToken();
             $table->timestamps();
         }); 
@@ -38,7 +39,8 @@ return new class extends Migration
                     'email' => 'ADMIN@gmail.com',
                     'password' => bcrypt('ADMIN'),
                     'privateKey' => $private,
-                    'publicKey' => $public,
+                    'publicKey' => $public, 
+                    'encryptionKey' => uniqid()
                 ]
             )
         );

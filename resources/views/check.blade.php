@@ -16,11 +16,27 @@
             <th scope="col">Nomor Sertifikat</th>
             <th scope="col">Nama Program</th>
             <th scope="col">Keikutsertaan</th>
-            <th scope="col">QR Code</th>
+            <th scope="col">Validitas</th>
         </tr>
     </thead>
     <tbody> 
         <tr>
+            @php 
+                $message = (
+                    $model1->noPeserta.
+                    $model1->nama.
+                    $model1->asalSekolah.
+                    $model1->tanggalTerbit.
+                    $model1->noSertifikat.
+                    $model1->namaPelatihan.
+                    $model1->keikutsertaan
+                );  
+
+                ($message == $decryptedMessage) ? $message1 = 1 : $message1 = 0;   
+                $dsa->verify($message, $model1->sign) ? $message2 = 1 : $message2 = 0;   
+
+                ($message1 == 1 & $message2 == 1) ? $message = 1 : $message = 0;
+            @endphp
             <td scope="col">1</td> 
             <td scope="col">{{ $model1->noPeserta }}</td>
             <td scope="col">{{ $model1->nama }}</td>
@@ -30,7 +46,11 @@
             <td scope="col">{{ $model1->namaPelatihan }}</td>
             <td scope="col">{{ $model1->keikutsertaan }}</td> 
             <td scope="col">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $model1->id }}">Cek Validitas</button>
+                @if ($message == 1)
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $model1->id }}">Valid</button>
+                @else                
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $model1->id }}">Invalid</button>
+                @endif
             </td>
         </tr>  
     </tbody> 

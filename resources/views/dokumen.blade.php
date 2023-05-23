@@ -21,9 +21,10 @@
             </tr>
         </thead>
         <tbody>
+            @php $i = 1; @endphp
             @foreach($datas1 as $key=>$val)
             <tr>
-                <td scope="col">1</td>
+                <td scope="col">{{ $i++ }}</td>
                 <td scope="col">{{ $val->noPeserta }}</td>
                 <td scope="col">{{ $val->nama }}</td>
                 <td scope="col">{{ $val->instansi }}</td>
@@ -70,26 +71,34 @@
                 </div> 
                 <script type="text/javascript">
                     $(document).ready(function () {
-                        var arg = {
-                            resultFunction: function (result) {  
-                                var url = '{{ url("/dokumen/check") }}';
-                                var code = result.code; 
-                                var afterUrl = code.substring(url.length + 1); 
+                        var decoder; // Declare the decoder variable outside the scope of the event handlers
 
-                                var redirect = '{{ url("/dokumen/check") }}';
-                                $.redirectPost(redirect, {noSertifikat: afterUrl});
-                            }
-                        };
+                        // Open ModalScan event handler
+                        $('#ModalScan').on('shown.bs.modal', function () {
+                            var arg = {
+                                resultFunction: function (result) {
+                                    var url = '{{ url("/dokumen/check") }}';
+                                    var code = result.code; 
+                                    var afterUrl = code.substring(url.length + 1); 
 
-                        var decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
-                        decoder.buildSelectMenu("select");
-                        decoder.play();
-                        /*  Without visible select menu
-                            decoder.buildSelectMenu(document.createElement('select'), 'environment|back').init(arg).play();
-                        */
-                        $('select').on('change', function(){
-                            decoder.stop().play();
+                                    var redirect = '{{ url("/dokumen/check") }}';
+                                    $.redirectPost(redirect, { noSertifikat: afterUrl });
+                                }
+                            };
+
+                            // Initialize the decoder when the modal is opened
+                            decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
+                            decoder.buildSelectMenu("select");
+                            decoder.play();
                         });
+
+                        // Close ModalScan event handler
+                        $('#ModalScan').on('hidden.bs.modal', function () {
+                            // Stop the decoder when the modal is closed
+                            if (decoder) {
+                                decoder.stop();
+                            }
+                        }); 
 
                         $.extend({
                             redirectPost: function (location, args) {
