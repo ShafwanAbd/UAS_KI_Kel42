@@ -30,9 +30,7 @@
                     $model1->noSertifikat.
                     $model1->namaPelatihan.
                     $model1->keikutsertaan
-                );  
-
-                dd($message, $decryptedMessage, $model1->sign);
+                );   
 
                 ($message == $decryptedMessage) ? $message1 = 1 : $message1 = 0;   
                 $dsa->verify($decryptedMessage, $model1->sign) ? $message2 = 1 : $message2 = 0;   
