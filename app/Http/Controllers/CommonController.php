@@ -27,7 +27,7 @@ class CommonController extends Controller
 
     public function check(Request $request){    
         
-        $model1 = sertifikatData::where('noSertifikat', $request->noSertifikat)->first();  
+        $model1 = sertifikatData::where('uniqueId', $request->uniqueId)->first();  
         $dsa = DSA::loadPublicKey(Auth::user()->publicKey);  
 
         $encryptedMessage = $model1->encryptedMessage;
@@ -43,11 +43,11 @@ class CommonController extends Controller
         $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', Auth::user()->encryptionKey, OPENSSL_RAW_DATA, $iv);
 
         // echo $dsa->verify($decryptedMessage, $model1->sign) ?
-        //     'valid signature' : 
-        //     'invalid signature';   
+        //     'valid signature' :
+        //     'invalid signature';
 
         $model2 = new LogAudit(); 
-        $model2->aktifitas = "Melakukan Pengechekan pada Sertifikat dengan No. Sertif '". $request->noSertifikat ."'.";
+        $model2->aktifitas = "Melakukan Pengechekan pada Sertifikat dengan No. Sertif ". $model1->noSertifikat .".";
 
         $model2->save();
 
@@ -130,6 +130,7 @@ class CommonController extends Controller
         $encryptedMessage = $iv . $ciphertext;
         
         $model1->encryptedMessage = $encryptedMessage;
+        $model1->uniqueId = uniqid();
 
         $model1->save();
 
@@ -139,6 +140,18 @@ class CommonController extends Controller
         $model2->save();
  
         return back()->with('success', 'yey');
+    }
+
+    public function hapus(string $id){
+        $model1 = sertifikatData::find($id);
+        $model1->delete();
+
+        $model2 = new LogAudit(); 
+        $model2->aktifitas = "Menghapus Sertifikat dengan No. Sertifikat ". $model1->noSertifikat .".";
+
+        $model2->save();
+
+        return back()->with('success', 'Berhasil Menghapus Sertifikat');
     }
 
     // DEBUGGING

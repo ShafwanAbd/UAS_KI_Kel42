@@ -17,7 +17,8 @@
                 <th scope="col">Nomor Sertifikat</th>
                 <th scope="col">Nama Program</th>
                 <th scope="col">Keikutsertaan</th>
-                <th scope="col">QR Code</th>
+                <th scope="col">QR Code</th> 
+                <th scope="col">Action</th> 
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                 <td scope="col">{{ $val->namaPelatihan }}</td>
                 <td scope="col">{{ $val->keikutsertaan }}</td>
                 <td scope="col"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button></td>
+                <td scope="col"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalHapus{{ $val->id }}">Hapus</button></td>
             </tr>  
 
             <!-- Modal QR Code -->
@@ -44,10 +46,29 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>  
                         <div class="modal-body mx-auto py-auto"> 
-                            {!! QrCode::size(300)->generate(url('/dokumen/check').'/'.$val->noSertifikat); !!}
+                            {!! QrCode::size(300)->errorCorrection('H')->generate($val->uniqueId); !!}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button> 
+                        </div>  
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Hapus -->
+            <div class="modal fade" id="ModalHapus{{ $val->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">CAUTION</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>  
+                        <div class="modal-body mx-auto py-auto"> 
+                            <h2>Apakah Anda Yakin?</h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button> 
+                            <a href="{{ url('dokumen/hapus/'.$val->id) }}" class="btn btn-secondary">Yakin</a> 
                         </div>  
                     </div>
                 </div>
@@ -76,13 +97,9 @@
                         // Open ModalScan event handler
                         $('#ModalScan').on('shown.bs.modal', function () {
                             var arg = {
-                                resultFunction: function (result) {
-                                    var url = '{{ url("/dokumen/check") }}';
-                                    var code = result.code; 
-                                    var afterUrl = code.substring(url.length + 1); 
-
+                                resultFunction: function (result) { 
                                     var redirect = '{{ url("/dokumen/check") }}';
-                                    $.redirectPost(redirect, { noSertifikat: afterUrl });
+                                    $.redirectPost(redirect, { uniqueId: result.code });
                                 }
                             };
 
@@ -144,7 +161,7 @@
                         <label for="floatingInput">Instansi</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="tanggalTerbit" type="text" class="form-control" id="floatingInput" placeholder="nama">
+                        <input name="tanggalTerbit" type="date" class="form-control" id="floatingInput" placeholder="nama">
                         <label for="floatingInput">Tanggal Terbit</label>
                     </div>
                     <div class="form-floating mb-3">

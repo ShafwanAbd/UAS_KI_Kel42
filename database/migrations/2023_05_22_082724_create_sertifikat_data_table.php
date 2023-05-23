@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sertifikat_data', function (Blueprint $table) {
             $table->id();
+            $table->string('uniqueId'); 
             $table->string('noPeserta');
             $table->string('nama');
             $table->string('instansi');
