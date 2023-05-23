@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class sertifikatData extends Model
-{
+{ 
     use HasFactory;
-    protected $table = "sertifikat_data";
+    protected $table = "sertifikat_data"; 
 }

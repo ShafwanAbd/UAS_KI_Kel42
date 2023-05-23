@@ -41,11 +41,7 @@ class CommonController extends Controller
 
         // Decrypt the ciphertext using the IV and AES-256-CBC
         $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', Auth::user()->encryptionKey, OPENSSL_RAW_DATA, $iv);
-
-        // echo $dsa->verify($decryptedMessage, $model1->sign) ?
-        //     'valid signature' :
-        //     'invalid signature';
-
+  
         $model2 = new LogAudit(); 
         $model2->aktifitas = "Melakukan Pengechekan pada Sertifikat dengan No. Sertif ". $model1->noSertifikat .".";
 
@@ -105,15 +101,20 @@ class CommonController extends Controller
         $model1->namaPelatihan = $request->namaPelatihan;
         $model1->keikutsertaan = $request->keikutsertaan;
 
+        $model1->save();
+
         $dsa = DSA::loadPrivateKey(Auth::user()->privateKey); 
         $message = (
+            $model1->created_at.
+            $model1->id.
             $model1->noPeserta.
             $model1->nama.
             $model1->asalSekolah.
             $model1->tanggalTerbit.
             $model1->noSertifikat.
             $model1->namaPelatihan.
-            $model1->keikutsertaan
+            $model1->keikutsertaan.
+            $model1->updated_at
         ); 
         
         // $signature = $private->sign($message6);  
@@ -130,7 +131,7 @@ class CommonController extends Controller
         $encryptedMessage = $iv . $ciphertext;
         
         $model1->encryptedMessage = $encryptedMessage;
-        $model1->uniqueId = uniqid();
+        $model1->uniqueId = 'UASKI' . uniqid();
 
         $model1->save();
 

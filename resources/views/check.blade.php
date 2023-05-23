@@ -1,7 +1,6 @@
 @extends('layouts.layout_main')
 
-@section('content')
-
+@section('content') 
 <h1>Codingy</h1>
 <h6>Jl. Siliwangi, Planet Mars, Universe Milky Way</h6>
 
@@ -23,15 +22,19 @@
         <tr>
             @php 
                 $message = (
+                    $model1->created_at.
+                    $model1->id.
                     $model1->noPeserta.
                     $model1->nama.
                     $model1->asalSekolah.
                     $model1->tanggalTerbit.
                     $model1->noSertifikat.
                     $model1->namaPelatihan.
-                    $model1->keikutsertaan
-                );   
+                    $model1->keikutsertaan.
+                    $model1->updated_at
+                );     
 
+                // Seharusnya pake $dsa
                 ($message == $decryptedMessage) ? $message1 = 1 : $message1 = 0;   
                 $dsa->verify($message, $model1->sign) ? $message2 = 1 : $message2 = 0;   
 
@@ -49,7 +52,16 @@
                 @if ($message == 1)
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $model1->id }}">Valid</button>
                 @else                
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $model1->id }}">Invalid</button>
+                <button type="button" class="btn btn-danger"
+                        data-bs-toggle="tooltip" data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip"
+                        data-bs-title="Data Sudah Tidak Sama Seperti Awal Dibuat.">
+                Invalid
+                </button>
+                <script>
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+                </script>
                 @endif
             </td>
         </tr>  
