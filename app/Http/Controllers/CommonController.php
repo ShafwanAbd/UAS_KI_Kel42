@@ -42,9 +42,9 @@ class CommonController extends Controller
         QRCode::png($isi_teks,$tempdir.$namafile,$quality,$ukuran,$padding);
     }
 
-    public function check(string $noSertifikat){   
+    public function check(Request $request){    
         
-        $model1 = sertifikatData::where('noSertifikat', $noSertifikat)->first(); 
+        $model1 = sertifikatData::where('noSertifikat', $request->noSertifikat)->first();  
 
         return view('check', compact(
             'model1'

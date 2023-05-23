@@ -71,12 +71,13 @@
                 <script type="text/javascript">
                     $(document).ready(function () {
                         var arg = {
-                            resultFunction: function (result) {
-                                var qrCodeValue = result.code;
-                                var qrCodeParts = qrCodeValue.split('/');
-                                var lastValue = qrCodeParts[qrCodeParts.length - 1];
-                                var redirect = '{{ url("/dokumen/check") }}' + '/' + lastValue;
-                                $.redirectPost(redirect);
+                            resultFunction: function (result) {  
+                                var url = '{{ url("/dokumen/check") }}';
+                                var code = result.code; 
+                                var afterUrl = code.substring(url.length + 1); 
+
+                                var redirect = '{{ url("/dokumen/check") }}';
+                                $.redirectPost(redirect, {noSertifikat: afterUrl});
                             }
                         };
 
@@ -91,8 +92,11 @@
                         });
 
                         $.extend({
-                            redirectPost: function (location) {
+                            redirectPost: function (location, args) {
                                 var form = '';
+                                $.each( args, function( key, value ) {
+                                    form += '<input type="hidden" name="'+key+'" value="'+value+'">';
+                                });
                                 $('<form action="' + location + '" method="GET">' + form + '</form>').appendTo('body').submit();
                             }
                         });
