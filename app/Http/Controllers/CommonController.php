@@ -198,7 +198,7 @@ class CommonController extends Controller
         // Decrypt the ciphertext using the IV and AES-256-CBC
         $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv); 
 
-        dd($message7_edit, $message7_edit);
+        dd($message7, $message7_edit, $signature);
 
         echo $public->verify($decryptedMessage, $signature) ?
             'valid signature':
