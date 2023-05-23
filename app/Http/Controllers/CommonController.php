@@ -185,23 +185,12 @@ class CommonController extends Controller
         // Decrypt the ciphertext using the IV and AES-256-CBC
         $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv); 
 
+        dd($message7_edit, $message7_edit);
+
         echo $public->verify($decryptedMessage, $signature) ?
-            'valid signature' : 
-            'invalid signature';  
+            'valid signature':
+            'invalid signature'; 
 
         echo "<br><br>" . $private . "<br><br>" . $public . "<br><br>" . $signature . "<br><br>message6:" . $message7 . "<br><br>ciphertext:" . $ciphertext . "<br><br>message_digest:" . $messageDigest;
-      
-
-        if (!extension_loaded('imagick')){
-            echo '<br>imagick not installed';
-        } else {
-            echo '<br>imagick installed';
-        }   
-
-        if (!extension_loaded('gd')){
-            echo '<br>gd not installed';
-        } else {
-            echo '<br>gd installed';
-        } 
     }
 }

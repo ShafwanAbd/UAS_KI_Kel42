@@ -32,10 +32,12 @@
                     $model1->keikutsertaan
                 );  
 
-                ($message == $decryptedMessage) ? $message1 = 1 : $message1 = 0;   
-                $dsa->verify($message, $model1->sign) ? $message2 = 1 : $message2 = 0;   
+                dd($message, $decryptedMessage, $model1->sign);
 
-                ($message1 == 1 & $message2 == 1) ? $message = 1 : $message = 0;
+                ($message == $decryptedMessage) ? $message1 = 1 : $message1 = 0;   
+                $dsa->verify($decryptedMessage, $model1->sign) ? $message2 = 1 : $message2 = 0;   
+
+                ($message1 == 1 && $message2 == 1) ? $message = 1 : $message = 0;
             @endphp
             <td scope="col">1</td> 
             <td scope="col">{{ $model1->noPeserta }}</td>
