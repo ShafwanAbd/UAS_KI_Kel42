@@ -90,55 +90,62 @@ class CommonController extends Controller
 
     // ADDING
 
-    public function dokumen_add(Request $request){ 
+    public function dokumen_add(Request $request){    
+ 
+        function adding(Request $request){
+            $model1 = new sertifikatData(); 
 
-        $model1 = new sertifikatData(); 
+            $model1->noPeserta = $request->noPeserta;
+            $model1->nama = $request->nama;
+            $model1->instansi = $request->instansi;
+            $model1->tanggalTerbit = $request->tanggalTerbit;
+            $model1->noSertifikat = $request->noSertifikat;
+            $model1->namaPelatihan = $request->namaPelatihan;
+            $model1->keikutsertaan = $request->keikutsertaan;
+    
+            $model1->save();
+    
+            $dsa = DSA::loadPrivateKey(Auth::user()->privateKey); 
+            $message = (
+                $model1->created_at.
+                $model1->id.
+                $model1->noPeserta.
+                $model1->nama.
+                $model1->asalSekolah.
+                $model1->tanggalTerbit.
+                $model1->noSertifikat.
+                $model1->namaPelatihan.
+                $model1->keikutsertaan.
+                $model1->updated_at
+            ); 
+            
+            // $signature = $private->sign($message6);  
+            $model1->sign = $dsa->sign($message);    
+    
+            // ==== ENCRYPT ==== //  
+            // Generate a random initialization vector (IV)
+            $iv = random_bytes(16);
+    
+            // Encrypt the message using AES-256-CBC
+            $ciphertext = openssl_encrypt($message, 'aes-256-cbc', Auth::user()->encryptionKey, OPENSSL_RAW_DATA, $iv);
+    
+            // Concatenate the IV and ciphertext
+            $encryptedMessage = $iv . $ciphertext;
+            
+            $model1->encryptedMessage = $encryptedMessage;
+            $model1->uniqueId = 'UASKI' . uniqid(); 
 
-        $model1->noPeserta = $request->noPeserta;
-        $model1->nama = $request->nama;
-        $model1->instansi = $request->instansi;
-        $model1->tanggalTerbit = $request->tanggalTerbit;
-        $model1->noSertifikat = $request->noSertifikat;
-        $model1->namaPelatihan = $request->namaPelatihan;
-        $model1->keikutsertaan = $request->keikutsertaan;
+            return $model1;
+        };
+
+        do {
+            $model1 = adding($request);
+        } while ($model1->created_at != $model1->updated_at);
 
         $model1->save();
-
-        $dsa = DSA::loadPrivateKey(Auth::user()->privateKey); 
-        $message = (
-            $model1->created_at.
-            $model1->id.
-            $model1->noPeserta.
-            $model1->nama.
-            $model1->asalSekolah.
-            $model1->tanggalTerbit.
-            $model1->noSertifikat.
-            $model1->namaPelatihan.
-            $model1->keikutsertaan.
-            $model1->updated_at
-        ); 
         
-        // $signature = $private->sign($message6);  
-        $model1->sign = $dsa->sign($message);    
-
-        // ==== ENCRYPT ==== //  
-        // Generate a random initialization vector (IV)
-        $iv = random_bytes(16);
-
-        // Encrypt the message using AES-256-CBC
-        $ciphertext = openssl_encrypt($message, 'aes-256-cbc', Auth::user()->encryptionKey, OPENSSL_RAW_DATA, $iv);
-
-        // Concatenate the IV and ciphertext
-        $encryptedMessage = $iv . $ciphertext;
-        
-        $model1->encryptedMessage = $encryptedMessage;
-        $model1->uniqueId = 'UASKI' . uniqid();
-
-        $model1->save();
-
         $model2 = new LogAudit(); 
         $model2->aktifitas = "Menambahkan Sertifikat dengan No. Sertifikat ". $request->noSertifikat .".";
-
         $model2->save();
  
         return back()->with('success', 'Berhasil Menambahkan Sertifikat!');

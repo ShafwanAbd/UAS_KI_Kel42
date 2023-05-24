@@ -218,31 +218,31 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input name="noPeserta" type="text" class="form-control" id="floatingInput" placeholder="nama">
+                        <input name="noPeserta" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
                         <label for="floatingInput">No Peserta</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="nama" type="text" class="form-control" id="floatingInput" placeholder="nama">
+                        <input name="nama" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
                         <label for="floatingInput">Nama</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="instansi" type="text" class="form-control" id="floatingInput" placeholder="nama">
+                        <input name="instansi" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
                         <label for="floatingInput">Instansi</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="tanggalTerbit" type="date" class="form-control" id="floatingInput" placeholder="nama">
+                        <input name="tanggalTerbit" type="date" class="form-control" id="floatingInput" placeholder="nama" required>
                         <label for="floatingInput">Tanggal Terbit</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="noSertifikat" type="text" class="form-control" id="floatingInput" placeholder="nama">
+                        <input name="noSertifikat" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
                         <label for="floatingInput">No Sertifikat</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="namaPelatihan" type="text" class="form-control" id="floatingInput" placeholder="nama">
+                        <input name="namaPelatihan" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
                         <label for="floatingInput">Nama Pelatihan</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="keikutsertaan" type="text" class="form-control" id="floatingInput" placeholder="nama">
+                        <input name="keikutsertaan" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
                         <label for="floatingInput">Keikutsertaan</label>
                     </div>
                 </div>
