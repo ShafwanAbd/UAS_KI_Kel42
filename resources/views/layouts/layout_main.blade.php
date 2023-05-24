@@ -41,7 +41,7 @@
     style="background: linear-gradient(to right, rgb(137, 181, 251), rgb(8, 88, 217));">
     <div class="container">
       <div class="left-side">
-        <a class="navbar-brand fw-bold text-white" href="{{ url('/') }}">
+        <a class="navbar-brand fw-bold text-white" href="{{ url('/dokumen') }}">
           {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -64,16 +64,19 @@
           @guest
           @if (Route::has('login'))
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
           </li>
           @endif
 
           @if (Route::has('register'))
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
           </li>
           @endif
           @else
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{{ url('/dokumen/history') }}">{{ __('Log Aktifitas') }}</a>
+          </li>
           <li class="nav-item dropdown ms-auto">
             <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button"
               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
