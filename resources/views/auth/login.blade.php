@@ -11,11 +11,9 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="mb-3">
-
-
-
-                            <input id="email" type="email" class="form-control shadow @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Masukkan Email">
+                        <div class="form-floating mb-3">
+                            <input id="floatingInput" type="email" class="form-control shadow @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Masukkan Email">
+                            <label for="floatingInput">Email</label>
 
                             @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -25,12 +23,12 @@
 
                         </div>
 
-                        <div class="mb-3">
+                        <div class="form-floating mb-3">
 
 
 
-                            <input id="password" type="password" class="form-control shadow @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Masukkan Password">
-
+                            <input id="floatingInput" type="password" class="form-control shadow @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Masukkan Password">
+                            <label for="floatingInput">Password</label>
                             @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
