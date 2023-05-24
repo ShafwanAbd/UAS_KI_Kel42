@@ -1,6 +1,13 @@
 @extends('layouts.layout_main')
 
 @section('content') 
+
+@if(Session::has('success'))
+    <p class="alert alert-success" id="sixSeconds">{{ Session::get('success') }}</p>
+@elseif (Session::has('failed'))
+    <p class="alert alert-danger" id="sixSeconds">{{ Session::get('failed') }}</p>
+@endif 
+
 <h1>Codingy</h1>
 <h6>Jl. Siliwangi, Planet Mars, Universe Milky Way</h6>
 
@@ -47,24 +54,27 @@
             <td scope="col">{{ $model1->tanggalTerbit }}</td>
             <td scope="col">{{ $model1->noSertifikat }}</td>
             <td scope="col">{{ $model1->namaPelatihan }}</td>
-            <td scope="col">{{ $model1->keikutsertaan }}</td> 
-            <td scope="col">
-                @if ($message == 1)
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $model1->id }}">Valid</button>
-                @else                
-                <button type="button" class="btn btn-danger"
-                        data-bs-toggle="tooltip" data-bs-placement="top"
-                        data-bs-custom-class="custom-tooltip"
-                        data-bs-title="Data Sudah Tidak Sama Seperti Awal Dibuat.">
-                Invalid
+            <td scope="col">{{ $model1->keikutsertaan }}</td>  
+            @if ($message == 1)
+            <td>
+                <button type="button" class="badge bg-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Data Masih Sama Seperti pada Awal Dibuat.">
+                    Valid
                 </button>
-                <script>
-                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-                </script>
-                @endif
+            </td>
+            @else
+            <td>
+                <button type="button" class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Data Sudah Tidak Sama Seperti Awal Dibuat.">
+                    Invalid
+                </button>
+            </td>
+            @endif
             </td>
         </tr>  
     </tbody> 
 </table>
+
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
 @endsection

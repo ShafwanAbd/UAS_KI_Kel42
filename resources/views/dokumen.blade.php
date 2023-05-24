@@ -1,6 +1,13 @@
 @extends('layouts.layout_main')
 
-@section('content')
+@section('content') 
+
+@if(Session::has('success'))
+    <p class="alert alert-success" id="sixSeconds">{{ Session::get('success') }}</p>
+@elseif (Session::has('failed'))
+    <p class="alert alert-danger" id="sixSeconds">{{ Session::get('failed') }}</p>
+@endif 
+
 <div class="d-row d-flex pt-3 gap-2">
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalScan">Scan QR
@@ -63,18 +70,16 @@
                 <td>{{ $val->keikutsertaan }}</td>
                 @if ($message == 1)
                 <td>
-                    <span class="badge bg-success">Valid</span>
+                    <button type="button" class="badge bg-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Data Masih Sama Seperti pada Awal Dibuat.">
+                        Valid
+                    </button>
                 </td>
                 @else
                 <td>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Data Sudah Tidak Sama Seperti Awal Dibuat.">
+                    <button type="button" class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Data Sudah Tidak Sama Seperti Awal Dibuat.">
                         Invalid
                     </button>
                 </td>
-                <script>
-                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-                </script>
                 @endif
                 <td scope="col"><button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button></td>
                 <td scope="col"><button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalHapus{{ $val->id }}">Hapus</button></td>
@@ -150,6 +155,7 @@
                     <canvas class="w-100"></canvas>
                     <select></select>
                 </div>
+                
                 <script type="text/javascript">
                     $(document).ready(function() {
                         var decoder; // Declare the decoder variable outside the scope of the event handlers
@@ -248,4 +254,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
 @endsection

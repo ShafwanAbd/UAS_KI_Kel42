@@ -44,7 +44,7 @@ class CommonController extends Controller
         $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', Auth::user()->encryptionKey, OPENSSL_RAW_DATA, $iv);
   
         $model2 = new LogAudit(); 
-        $model2->aktifitas = "Melakukan Pengechekan pada Sertifikat dengan No. Sertif ". $model1->noSertifikat .".";
+        $model2->aktifitas = "Melakukan Pengecekan pada Sertifikat dengan No. Sertif ". $model1->noSertifikat .".";
 
         $model2->save();
 
@@ -85,7 +85,7 @@ class CommonController extends Controller
 
         $model1->save();
 
-        return back()->with('success', 'Akun Berhasil Diupdate!');
+        return back()->with('success', 'Berhasil Mengupdate Akun!');
     }
 
     // ADDING
@@ -141,7 +141,7 @@ class CommonController extends Controller
 
         $model2->save();
  
-        return back()->with('success', 'yey');
+        return back()->with('success', 'Berhasil Menambahkan Sertifikat!');
     }
 
     public function hapus(string $id){
@@ -153,7 +153,7 @@ class CommonController extends Controller
 
         $model2->save();
 
-        return back()->with('success', 'Berhasil Menghapus Sertifikat');
+        return back()->with('success', 'Berhasil Menghapus Sertifikat!');
     }
 
     // DEBUGGING

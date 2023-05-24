@@ -1,6 +1,6 @@
 @extends('layouts.layout_main')
 
-@section('content')
+@section('content') 
 
 <div class="row pt-3">
     <!-- Kondisi jika terdapat data pada Log Audit -->
