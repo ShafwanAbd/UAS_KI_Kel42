@@ -17,13 +17,35 @@
                 <th scope="col">Nomor Sertifikat</th>
                 <th scope="col">Nama Program</th>
                 <th scope="col">Keikutsertaan</th>
+                <th scope="col">Validitas</th>
                 <th scope="col">QR Code</th> 
                 <th scope="col">Action</th> 
             </tr>
         </thead>
         <tbody>
-            @php $i = 1; @endphp
+            @php 
+                $i = 1;
+            @endphp
             @foreach($datas1 as $key=>$val)
+            @php
+            $message = (
+                    $val->created_at.
+                    $val->id.
+                    $val->noPeserta.
+                    $val->nama.
+                    $val->asalSekolah.
+                    $val->tanggalTerbit.
+                    $val->noSertifikat.
+                    $val->namaPelatihan.
+                    $val->keikutsertaan.
+                    $val->updated_at
+                );     
+
+                // Seharusnya pake $dsa   
+                $dsa->verify($message, $val->sign) ? $message2 = 1 : $message2 = 0;   
+
+                ($message2 == 1) ? $message = 1 : $message = 0;
+            @endphp
             <tr>
                 <td scope="col">{{ $i++ }}</td>
                 <td scope="col">{{ $val->noPeserta }}</td>
@@ -33,6 +55,24 @@
                 <td scope="col">{{ $val->noSertifikat }}</td>
                 <td scope="col">{{ $val->namaPelatihan }}</td>
                 <td scope="col">{{ $val->keikutsertaan }}</td>
+                @if ($message == 1)
+                <td>
+                    <button class="btn btn-primary">Valid</button>
+                </td>
+                @else      
+                <td>     
+                    <button type="button" class="btn btn-danger"
+                            data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Data Sudah Tidak Sama Seperti Awal Dibuat.">
+                        Invalid
+                    </button>
+                </td>     
+                <script>
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+                </script>
+                @endif
                 <td scope="col"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button></td>
                 <td scope="col"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalHapus{{ $val->id }}">Hapus</button></td>
             </tr>  

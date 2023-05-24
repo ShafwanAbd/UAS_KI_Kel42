@@ -19,9 +19,10 @@ class CommonController extends Controller
 
     public function dokumen(){
         $datas1 = sertifikatData::all();
+        $dsa = DSA::loadPublicKey(Auth::user()->publicKey);  
 
         return view('dokumen', compact(
-            'datas1'
+            'datas1', 'dsa'
         ));
     } 
 
