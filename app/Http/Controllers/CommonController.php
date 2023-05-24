@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LogAudit;
 use App\Models\sertifikatData;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,8 @@ class CommonController extends Controller
 
     public function dokumen(){
         $datas1 = sertifikatData::all();
-        $dsa = DSA::loadPublicKey(Auth::user()->publicKey);  
+        $setting = Setting::first();
+        $dsa = DSA::loadPublicKey($setting->publicKey);  
 
         return view('dokumen', compact(
             'datas1', 'dsa'
@@ -29,7 +31,8 @@ class CommonController extends Controller
     public function check(Request $request){    
         
         $model1 = sertifikatData::where('uniqueId', $request->uniqueId)->first();  
-        $dsa = DSA::loadPublicKey(Auth::user()->publicKey);  
+        $setting = Setting::first();
+        $dsa = DSA::loadPublicKey($setting->publicKey);  
 
         $encryptedMessage = $model1->encryptedMessage;
 
@@ -41,7 +44,7 @@ class CommonController extends Controller
         $ciphertext = substr($encryptedMessage, 16);
 
         // Decrypt the ciphertext using the IV and AES-256-CBC
-        $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', Auth::user()->encryptionKey, OPENSSL_RAW_DATA, $iv);
+        $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', $setting->encryptionKey, OPENSSL_RAW_DATA, $iv);
   
         $model2 = new LogAudit(); 
         $model2->aktifitas = "Melakukan Pengecekan pada Sertifikat dengan No. Sertif ". $model1->noSertifikat .".";
@@ -63,9 +66,10 @@ class CommonController extends Controller
 
     public function profile(){   
         $user = Auth::user();
+        $setting = Setting::first();
 
         return view('profile', compact(
-            'user'
+            'user', 'setting'
         ));  
     } 
 
@@ -91,9 +95,10 @@ class CommonController extends Controller
     // ADDING
 
     public function dokumen_add(Request $request){    
- 
+         
         function adding(Request $request){
             $model1 = new sertifikatData(); 
+            $setting = Setting::first();
 
             $model1->noPeserta = $request->noPeserta;
             $model1->nama = $request->nama;
@@ -105,7 +110,7 @@ class CommonController extends Controller
     
             $model1->save();
     
-            $dsa = DSA::loadPrivateKey(Auth::user()->privateKey); 
+            $dsa = DSA::loadPrivateKey($setting->privateKey); 
             $message = (
                 $model1->created_at.
                 $model1->id.
@@ -127,7 +132,7 @@ class CommonController extends Controller
             $iv = random_bytes(16);
     
             // Encrypt the message using AES-256-CBC
-            $ciphertext = openssl_encrypt($message, 'aes-256-cbc', Auth::user()->encryptionKey, OPENSSL_RAW_DATA, $iv);
+            $ciphertext = openssl_encrypt($message, 'aes-256-cbc', $setting->encryptionKey, OPENSSL_RAW_DATA, $iv);
     
             // Concatenate the IV and ciphertext
             $encryptedMessage = $iv . $ciphertext;
@@ -161,58 +166,5 @@ class CommonController extends Controller
         $model2->save();
 
         return back()->with('success', 'Berhasil Menghapus Sertifikat!');
-    }
-
-    // DEBUGGING
-
-    public function phpinfo(){ 
-        return phpinfo(); 
     } 
-    
-    public function test() {
-        $encryptionKey = uniqid(); 
-
-        $private = DSA::createKey(2048, 160);
-        $public = $private->getPublicKey(); 
-             
-        $message5 = file_get_contents(public_path('./test/message3.docx')); 
-        $message6 = file_get_contents(public_path('./test/message7.pdf')); 
-        $message7 = "2032940Muhammad Shafwan Abdullah20233/P/3002/EAS/PJongkok Satu KakiPeserta";
-        $message7_edit = "2032940Muhammaad Shafwan Abdullah20233/P/3002/EAS/PJongkok Satu KakiPeserta";
-
-        $messageDigest = hash('sha256', $message7_edit);  
-  
-        $signature = $private->sign($message7);  
-        
-        // Convert the binary signature to a hex string
-        $hexSignature = bin2hex($signature);
-
-        // ==== ENCRYPT ==== //
-        // Generate a random initialization vector (IV)
-        $iv = random_bytes(16);
-
-        // Encrypt the message using AES-256-CBC
-        $ciphertext = openssl_encrypt($message7_edit, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv);
-
-        // Concatenate the IV and ciphertext
-        $encryptedMessage = $iv . $ciphertext;
-
-        // ==== DECRYPT ==== //
-        // Get the IV from the encrypted message
-        $iv = substr($encryptedMessage, 0, 16);
-
-        // Get the ciphertext from the encrypted message
-        $ciphertext = substr($encryptedMessage, 16);
-
-        // Decrypt the ciphertext using the IV and AES-256-CBC
-        $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv); 
-
-        dd($message7, $message7_edit, $signature);
-
-        echo $public->verify($decryptedMessage, $signature) ?
-            'valid signature':
-            'invalid signature'; 
-
-        echo "<br><br>" . $private . "<br><br>" . $public . "<br><br>" . $signature . "<br><br>message6:" . $message7 . "<br><br>ciphertext:" . $ciphertext . "<br><br>message_digest:" . $messageDigest;
-    }
 }

@@ -21,15 +21,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->text('privateKey')->nullable();
-            $table->text('publicKey')->nullable();
-            $table->text('encryptionKey')->nullable();
             $table->rememberToken();
             $table->timestamps();
         }); 
- 
-        $private = DSA::createKey(2048, 160);
-        $public = $private->getPublicKey();
 
         DB::table('users')->insert(
             array(
@@ -37,10 +31,7 @@ return new class extends Migration
                     'role' => '1',
                     'name' => 'ADMIN',
                     'email' => 'ADMIN@gmail.com',
-                    'password' => bcrypt('ADMIN'),
-                    'privateKey' => $private,
-                    'publicKey' => $public, 
-                    'encryptionKey' => uniqid()
+                    'password' => bcrypt('ADMIN')
                 ]
             )
         );

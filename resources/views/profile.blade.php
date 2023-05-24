@@ -19,9 +19,9 @@
             <input id="currentPassword" class="form-control" name="current_pw" placeholder="Password Aktif" type="password" required> 
         </div>
     </div>
-    <textarea name="privateKey" type="text" disabled>{{ $user->privateKey }}</textarea>
-    <textarea name="publicKey" type="text" disabled>{{ $user->publicKey }}</textarea>
-    <input name="encryptionKey" type="text" value="{{ $user->encryptionKey}}" disabled>   
+    <textarea name="privateKey" type="text" disabled>{{ $setting->privateKey }}</textarea>
+    <textarea name="publicKey" type="text" disabled>{{ $setting->publicKey }}</textarea>
+    <input name="encryptionKey" type="text" value="{{ $setting->encryptionKey}}" disabled>   
 
     <button type="submit" class="btn btn-primary">Update</button>
 </form>
