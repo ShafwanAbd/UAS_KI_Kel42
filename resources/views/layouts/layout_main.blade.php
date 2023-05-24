@@ -25,13 +25,17 @@
     <script type="text/javascript" src="{{asset('js/printThis.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/dataTables.js')}}"></script>
 
+    <!-- Font Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
     <title>Document</title>
 </head>
 
-<body>
+<body style="font-family:  'Poppins', sans-serif;">
     <div class="container">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow">
             <div class="d-row d-flex pt-2">
                 <div class="left-side">
                     <a class="navbar-brand" href="{{ url('/') }}">
