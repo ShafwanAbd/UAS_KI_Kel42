@@ -1,29 +1,30 @@
 @extends('layouts.layout_main')
 
 @section('content')
-<div class="container">
+<div class="container d-flex align-items-center" style="max-width: 1200px; min-height: 600px; margin-top: -30px;">
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
+    <div class="row text-start p-5 mt-5">
+        <div class="col-md-5 ps-5">
+            <h1 style="font-family: 'Patua One', cursive; color: #020202">Amankan Dokumenmu dengan QRSave</h1>
+            <p class="pt-2" style="font-family: 'Catamaran', sans-serif; color: #020202">Pengamanan dokumen menggunakan
+                teknologi QR memakai
+                Algoritma AES
+                dan DSA. </p>
+            <div class="tombol pt-2">
+                <button class="btn me-2 btn-sm rounded" style="padding: 11px; background-color: #020202; color: white;" data-bs-toggle="modal" data-bs-target="#ModalScan">Cek
+                    Keaslian
+                    Dokumen</button>
+                <a href="{{ url('/dokumen') }}" class="btn btn-outline-dark" style="padding: 11px;">Amankan Dokumen</a>
             </div>
         </div>
-    </div> 
- 
+        <div class="col-md-7 text-center">
+            <img class="ms-5" src="{{ asset('/image/icon/home.jpg') }}" alt="" height="350px" width="auto">
+        </div>
+    </div>
+
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalScan">Scan QR
-        Code</button> 
+    <!-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalScan">Scan QR
+    Code</button> -->
 
     <!-- Modal Scan -->
     <div class="modal fade" id="ModalScan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -38,7 +39,7 @@
                         <canvas class="w-100"></canvas>
                         <select></select>
                     </div>
-                    
+
                     <script type="text/javascript">
                         $(document).ready(function() {
                             var decoder; // Declare the decoder variable outside the scope of the event handlers
