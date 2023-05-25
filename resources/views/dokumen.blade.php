@@ -101,28 +101,27 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Lihat QR Code</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div id="QRDownloadThis" class="modal-body mx-auto py-auto">
-                {!! QrCode::size(300)->errorCorrection('H')->generate($val->uniqueId); !!}
+              <div class="modal-body mx-auto py-auto">
+                <div id="QRDownloadThis{{$val->id}}">
+                  {!! QrCode::size(300)->margin(1)->errorCorrection('H')->generate($val->uniqueId); !!}
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <button id="btnDownload" type="button" class="btn btn-primary">Download</button>
+                <a id="btnDownload{{$val->id}}" type="button" class="btn btn-primary">Download</a>
               </div>
+
               <script>
-              $(document).ready(function() {
-                $('#btnDownload').on('click', function() {
-                  $('#QRDownloadThis').printThis({
-                    filename: '{{ $val->noPeserta }}.pdf',
-                    importCSS: true,
-                    importStyle: true,
-                    header: null,
-                    footer: null,
-                    imageFormat: 'png', // Save as PNG format
-                    filename: 'my_custom_filename.png' // Set the desired filename here
+                $(document).ready(function(){
+                  $('#btnDownload{{$val->id}}').click(function() { 
+                    domtoimage.toBlob(document.getElementById('QRDownloadThis{{$val->id}}'))
+                    .then(function(blob){
+                      window.saveAs(blob, 'QRCode-{{$val->noPeserta}}.png');
+                    });
                   });
-                })
-              })
-              </script>
+                }); 
+              </script> 
+
             </div>
           </div>
         </div>

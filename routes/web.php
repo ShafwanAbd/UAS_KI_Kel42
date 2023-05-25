@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommonController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,12 +25,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/dokumen/history', [CommonController::class, 'history']);
     Route::get('/dokumen/hapus/{id}', [CommonController::class, 'hapus']);
     Route::get('/profile', [CommonController::class, 'profile']);
-    Route::post('/profile/update', [CommonController::class, 'user_update']); 
+    Route::post('/profile/update', [CommonController::class, 'user_update']);  
 });
 
 // USER / GUEST
 Route::get('/', [CommonController::class, 'home']);  
-Route::get('/dokumen/check', [CommonController::class, 'check']);
+Route::get('/dokumen/check', [CommonController::class, 'check']); 
 
 
 // TESTING

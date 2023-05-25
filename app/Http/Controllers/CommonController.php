@@ -154,7 +154,7 @@ class CommonController extends Controller
         $model2->save();
  
         return back()->with('success', 'Berhasil Menambahkan Sertifikat!');
-    }
+    } 
 
     public function hapus(string $id){
         $model1 = sertifikatData::find($id);
