@@ -80,10 +80,7 @@ class CommonController extends Controller
 
         $user = User::where('id', Auth::user()->id)->first(); 
         $user->name = $request->name;
-        $user->email = $request->email;
-        $user->privateKey = $request->privateKey;
-        $user->publicKey = $request->publicKey;
-        $user->encryptionKey = $request->encryptionKey;
+        $user->email = $request->email; 
 
         $user->save();
 
