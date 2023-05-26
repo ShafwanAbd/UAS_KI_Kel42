@@ -1,7 +1,7 @@
 @extends('layouts.layout_main')
 
 @section('content')
-
+   
 <div class="container">
   <div class="row pt-3">
 

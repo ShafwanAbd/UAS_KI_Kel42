@@ -4,12 +4,14 @@
 
 
 <div class="container">
-
-  @if(Session::has('success'))
-  <p class="alert alert-success" id="sixSeconds">{{ Session::get('success') }}</p>
-  @elseif (Session::has('failed'))
-  <p class="alert alert-danger" id="sixSeconds">{{ Session::get('failed') }}</p>
-  @endif
+ 
+ <div class="row"> 
+     @if(Session::has('success'))
+     <p class="fixed-top mx-auto w-50 alert alert-success" id="sixSeconds" style="margin-top: 7.5vh">{{ Session::get('success') }}</p>
+     @elseif (Session::has('failed'))
+     <p class="fixed-top mx-auto w-50 alert alert-danger" id="sixSeconds" style="margin-top: 7.5vh">{{ Session::get('failed') }}</p> 
+     @endif
+ </div>
 
   <div class="d-row d-flex pt-3 gap-2">
     <!-- Button trigger modal -->

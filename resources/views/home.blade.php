@@ -1,6 +1,15 @@
 @extends('layouts.layout_main')
 
 @section('content')
+ 
+ <div class="row"> 
+     @if(Session::has('success'))
+     <p class="fixed-top mx-auto w-50 alert alert-success" id="sixSeconds" style="margin-top: 7.5vh">{{ Session::get('success') }}</p>
+     @elseif (Session::has('failed'))
+     <p class="fixed-top mx-auto w-50 alert alert-danger" id="sixSeconds" style="margin-top: 7.5vh">{{ Session::get('failed') }}</p> 
+     @endif
+ </div>
+
 <div class="container d-flex align-items-center" style="max-width: 1200px; min-height: 600px; margin-top: -30px;">
 
     <div class="row text-start p-5 mt-5">
