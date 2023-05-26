@@ -8,6 +8,8 @@ use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use phpseclib3\Crypt\DSA;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -85,11 +87,29 @@ class CommonController extends Controller
         $user->save();
 
         $model1 = new LogAudit(); 
-        $model1->aktifitas = "Memperbaharui Profile dengan ID Profile ". $user->id .".";
+        $model1->aktifitas = "Berhasil Memperbaharui Profile.";
 
         $model1->save();
 
-        return back()->with('success', 'Berhasil Mengupdate Akun!');
+        return back()->with('success', 'Berhasil Memperbaharui Profile!');
+    }
+
+    public function password_update(Request $request){
+
+        if (Hash::check($request->current_pw, Auth::user()->password)) {
+            
+            DB::table('users')->where('id', Auth::user()->id)
+                            ->update(['password' => bcrypt($request->new_pw)]);
+
+            $model1 = new LogAudit(); 
+            $model1->aktifitas = "Berhasil Memperbaharui Password.";
+    
+            $model1->save();
+            
+            return back()->with('success', 'Berhasil Memperbaharui Password');
+        } else { 
+            return back()->with('failed', 'Password Aktif Salah!');
+        } 
     }
 
     // ADDING
