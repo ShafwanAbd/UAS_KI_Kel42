@@ -73,23 +73,28 @@
           <td>{{ $val->keikutsertaan }}</td>
           @if ($message == 1)
           <td>
-            <button type="button" class="badge bg-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Data Masih Sama Seperti pada Awal Dibuat.">
+            <button type="button" class="badge bg-success" data-bs-toggle="tooltip" data-bs-placement="top"
+              data-bs-custom-class="custom-tooltip" data-bs-title="Data Masih Sama Seperti pada Awal Dibuat.">
               Valid
             </button>
           </td>
           @else
           <td>
-            <button type="button" class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Data Sudah Tidak Sama Seperti Awal Dibuat.">
+            <button type="button" class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+              data-bs-custom-class="custom-tooltip" data-bs-title="Data Sudah Tidak Sama Seperti Awal Dibuat.">
               Invalid
             </button>
           </td>
           @endif
-          <td scope="col"><button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button></td>
-          <td scope="col"><button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#ModalHapus{{ $val->id }}">Hapus</button></td>
+          <td scope="col"><button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+              data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button></td>
+          <td scope="col"><button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+              data-bs-target="#ModalHapus{{ $val->id }}">Hapus</button></td>
         </tr>
 
         <!-- Modal QR Code -->
-        <div class="modal fade" id="ModalQRC{{ $val->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="ModalQRC{{ $val->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
@@ -107,14 +112,14 @@
               </div>
 
               <script>
-                $(document).ready(function() {
-                  $('#btnDownload{{$val->id}}').click(function() {
-                    domtoimage.toBlob(document.getElementById('QRDownloadThis{{$val->id}}'))
-                      .then(function(blob) {
-                        window.saveAs(blob, 'QRCode-{{$val->noPeserta}}.png');
-                      });
-                  });
+              $(document).ready(function() {
+                $('#btnDownload{{$val->id}}').click(function() {
+                  domtoimage.toBlob(document.getElementById('QRDownloadThis{{$val->id}}'))
+                    .then(function(blob) {
+                      window.saveAs(blob, 'QRCode-{{$val->noPeserta}}.png');
+                    });
                 });
+              });
               </script>
 
             </div>
@@ -122,7 +127,8 @@
         </div>
 
         <!-- Modal Hapus -->
-        <div class="modal fade" id="ModalHapus{{ $val->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="ModalHapus{{ $val->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
@@ -130,7 +136,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body mx-auto py-auto">
-                <h6>Apakah Anda Yakin?</h6>
+                <h6>Apakah Anda Yakin Ingin Menghapus data {{ $val->nama }}?</h6>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Gajadi</button>
@@ -159,45 +165,45 @@
           </div>
 
           <script type="text/javascript">
-            $(document).ready(function() {
-              var decoder; // Declare the decoder variable outside the scope of the event handlers
+          $(document).ready(function() {
+            var decoder; // Declare the decoder variable outside the scope of the event handlers
 
-              // Open ModalScan event handler
-              $('#ModalScan').on('shown.bs.modal', function() {
-                var arg = {
-                  resultFunction: function(result) {
-                    var redirect = '{{ url("/dokumen/check") }}';
-                    $.redirectPost(redirect, {
-                      uniqueId: result.code
-                    });
-                  }
-                };
-
-                // Initialize the decoder when the modal is opened
-                decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
-                decoder.buildSelectMenu("select");
-                decoder.play();
-              });
-
-              // Close ModalScan event handler
-              $('#ModalScan').on('hidden.bs.modal', function() {
-                // Stop the decoder when the modal is closed
-                if (decoder) {
-                  decoder.stop();
-                }
-              });
-
-              $.extend({
-                redirectPost: function(location, args) {
-                  var form = '';
-                  $.each(args, function(key, value) {
-                    form += '<input type="hidden" name="' + key + '" value="' + value + '">';
+            // Open ModalScan event handler
+            $('#ModalScan').on('shown.bs.modal', function() {
+              var arg = {
+                resultFunction: function(result) {
+                  var redirect = '{{ url("/dokumen/check") }}';
+                  $.redirectPost(redirect, {
+                    uniqueId: result.code
                   });
-                  $('<form action="' + location + '" method="GET">' + form + '</form>').appendTo('body')
-                    .submit();
                 }
-              });
+              };
+
+              // Initialize the decoder when the modal is opened
+              decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
+              decoder.buildSelectMenu("select");
+              decoder.play();
             });
+
+            // Close ModalScan event handler
+            $('#ModalScan').on('hidden.bs.modal', function() {
+              // Stop the decoder when the modal is closed
+              if (decoder) {
+                decoder.stop();
+              }
+            });
+
+            $.extend({
+              redirectPost: function(location, args) {
+                var form = '';
+                $.each(args, function(key, value) {
+                  form += '<input type="hidden" name="' + key + '" value="' + value + '">';
+                });
+                $('<form action="' + location + '" method="GET">' + form + '</form>').appendTo('body')
+                  .submit();
+              }
+            });
+          });
           </script>
 
         </div>
@@ -232,19 +238,23 @@
               <label for="floatingInput">Instansi</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="tanggalTerbit" type="date" class="form-control" id="floatingInput" placeholder="nama" required>
+              <input name="tanggalTerbit" type="date" class="form-control" id="floatingInput" placeholder="nama"
+                required>
               <label for="floatingInput">Tanggal Terbit</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="noSertifikat" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
+              <input name="noSertifikat" type="text" class="form-control" id="floatingInput" placeholder="nama"
+                required>
               <label for="floatingInput">No Sertifikat</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="namaPelatihan" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
+              <input name="namaPelatihan" type="text" class="form-control" id="floatingInput" placeholder="nama"
+                required>
               <label for="floatingInput">Nama Pelatihan</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="keikutsertaan" type="text" class="form-control" id="floatingInput" placeholder="nama" required>
+              <input name="keikutsertaan" type="text" class="form-control" id="floatingInput" placeholder="nama"
+                required>
               <label for="floatingInput">Keikutsertaan</label>
             </div>
           </div>
@@ -259,7 +269,7 @@
 </div>
 
 <script>
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>
 @endsection
