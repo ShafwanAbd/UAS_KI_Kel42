@@ -134,30 +134,28 @@
             <input name="encryptionKey" type="text" class="mb-3" value="{{ $setting->encryptionKey}}" disabled>
 
             </form>
-        </div>
-    </div>
 
-    <script>
-        $(document).ready(function() {
-            $('#hideButton1').click(function() {
-                var imageElement = $('#hideImage1');
-                var passwordField = $('#currentPassword');
-                var passwordFieldType = passwordField.attr('type');
 
-                if (passwordFieldType === 'password') {
-                    passwordField.attr('type', 'text');
-                    imageElement.attr('src', '{{asset("./image/icon/view_grey_closed.png")}}')
-                } else {
-                    passwordField.attr('type', 'password');
-                    imageElement.attr('src', "{{asset('./image/icon/view_grey.png')}}")
-                }
+            <script>
+                $(document).ready(function() {
+                    $('#hideButton1').click(function() {
+                        var imageElement = $('#hideImage1');
+                        var passwordField = $('#currentPassword');
+                        var passwordFieldType = passwordField.attr('type');
 
-                imageElement.toggleClass('animate__animated animate__flipInX');
-                setTimeout(function() {
-                    imageElement.toggleClass('animate__animated animate__flipInX');
-                }, 1);
-            });
-        });
-    </script>
-</div>
-@endsection
+                        if (passwordFieldType === 'password') {
+                            passwordField.attr('type', 'text');
+                            imageElement.attr('src', '{{asset("./image/icon/view_grey_closed.png")}}')
+                        } else {
+                            passwordField.attr('type', 'password');
+                            imageElement.attr('src', "{{asset('./image/icon/view_grey.png')}}")
+                        }
+
+                        imageElement.toggleClass('animate__animated animate__flipInX');
+                        setTimeout(function() {
+                            imageElement.toggleClass('animate__animated animate__flipInX');
+                        }, 1);
+                    });
+                });
+            </script>
+            @endsection

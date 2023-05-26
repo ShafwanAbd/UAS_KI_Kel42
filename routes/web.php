@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/dokumen/hapus/{id}', [CommonController::class, 'hapus']);
     Route::get('/profile', [CommonController::class, 'profile']);
     Route::post('/profile/update', [CommonController::class, 'user_update']);  
+    Route::post('/profile/updatePassword', [CommonController::class, 'password_update']);  
 });
 
 // USER / GUEST
