@@ -85,7 +85,7 @@
           </td>
           @endif
           <td scope="col"><button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalQRC{{ $val->id }}">Lihat</button></td>
-          <td scope="col"><button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalHapus{{ $val->id }}">Hapus</button></td>
+          <td scope="col"><button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#ModalHapus{{ $val->id }}">Hapus</button></td>
         </tr>
 
         <!-- Modal QR Code -->
@@ -126,15 +126,15 @@
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">CAUTION</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Hapus Data</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body mx-auto py-auto">
-                <h2>Apakah Anda Yakin?</h2>
+                <h6>Apakah Anda Yakin?</h6>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <a href="{{ url('dokumen/hapus/'.$val->id) }}" class="btn btn-secondary">Yakin</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Gajadi</button>
+                <a href="{{ url('dokumen/hapus/'.$val->id) }}" class="btn btn-danger">Yakin</a>
               </div>
             </div>
           </div>
