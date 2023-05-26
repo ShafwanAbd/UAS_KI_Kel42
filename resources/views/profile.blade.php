@@ -30,6 +30,7 @@
             </div>
 
         </div>
+
         <div class="card body mid p-3 mt-2">
             <h5 class="my-3 fw-bold">Kata Sandi</h5>
             <form method="POST" action="{{ url('profile/updatePassword') }}">
@@ -121,41 +122,45 @@
                                 });
                             });
                         </script>
+                     
+                        <script>
+                            $(document).ready(function() {
+                                $('#hideButton1').click(function() {
+                                    var imageElement = $('#hideImage1');
+                                    var passwordField = $('#currentPassword');
+                                    var passwordFieldType = passwordField.attr('type');
+
+                                    if (passwordFieldType === 'password') {
+                                        passwordField.attr('type', 'text');
+                                        imageElement.attr('src', '{{asset("./image/icon/view_grey_closed.png")}}')
+                                    } else {
+                                        passwordField.attr('type', 'password');
+                                        imageElement.attr('src', "{{asset('./image/icon/view_grey.png')}}")
+                                    }
+
+                                    imageElement.toggleClass('animate__animated animate__flipInX');
+                                    setTimeout(function() {
+                                        imageElement.toggleClass('animate__animated animate__flipInX');
+                                    }, 1);
+                                });
+                            });
+                        </script> 
                     </div>
+
                     <div class="row text-center" style="margin-left: 128px; margin-right: 128px">
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
+
                 </div>
+            </form> 
         </div>
+
         <div class="card body bottom p-3 mt-2 gap-3">
             <h5 class="mt-3 fw-bold">Key</h5>
             <textarea name="privateKey" type="text" disabled>{{ $setting->privateKey }}</textarea>
             <textarea name="publicKey" type="text" disabled>{{ $setting->publicKey }}</textarea>
             <input name="encryptionKey" type="text" class="mb-3" value="{{ $setting->encryptionKey}}" disabled>
+        </div>
 
-            </form>
 
-
-            <script>
-                $(document).ready(function() {
-                    $('#hideButton1').click(function() {
-                        var imageElement = $('#hideImage1');
-                        var passwordField = $('#currentPassword');
-                        var passwordFieldType = passwordField.attr('type');
-
-                        if (passwordFieldType === 'password') {
-                            passwordField.attr('type', 'text');
-                            imageElement.attr('src', '{{asset("./image/icon/view_grey_closed.png")}}')
-                        } else {
-                            passwordField.attr('type', 'password');
-                            imageElement.attr('src', "{{asset('./image/icon/view_grey.png')}}")
-                        }
-
-                        imageElement.toggleClass('animate__animated animate__flipInX');
-                        setTimeout(function() {
-                            imageElement.toggleClass('animate__animated animate__flipInX');
-                        }, 1);
-                    });
-                });
-            </script>
-            @endsection
+        @endsection
