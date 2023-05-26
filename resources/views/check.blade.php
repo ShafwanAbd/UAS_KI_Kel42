@@ -11,6 +11,7 @@
 <h1>Codingy</h1>
 <h6>Jl. Siliwangi, Planet Mars, Universe Milky Way</h6>
 
+@if (isset($model1))
 <table class="table table-hover">
     <thead>
         <tr>
@@ -72,6 +73,11 @@
         </tr>  
     </tbody> 
 </table>
+@else
+<div class="card p-5 m-5">
+    <h3>Sertifikat Tidak Terdaftar!</h3>
+</div>
+@endif
 
 <script>
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

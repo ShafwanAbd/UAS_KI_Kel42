@@ -26,30 +26,33 @@ class CommonController extends Controller
         return view('dokumen', compact(
             'datas1', 'dsa'
         ));
-    } 
+    }
 
     public function check(Request $request){    
         
-        $model1 = sertifikatData::where('uniqueId', $request->uniqueId)->first();  
+        $model1 = sertifikatData::where('uniqueId', $request->uniqueId)->first();
         $setting = Setting::first();
-        $dsa = DSA::loadPublicKey($setting->publicKey);  
+        $dsa = DSA::loadPublicKey($setting->publicKey); 
+        $decryptedMessage = "";
 
-        $encryptedMessage = $model1->encryptedMessage;
-
-        // ==== DECRYPT ==== //
-        // Get the IV from the encrypted message
-        $iv = substr($encryptedMessage, 0, 16);
-
-        // Get the ciphertext from the encrypted message
-        $ciphertext = substr($encryptedMessage, 16);
-
-        // Decrypt the ciphertext using the IV and AES-256-CBC
-        $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', $setting->encryptionKey, OPENSSL_RAW_DATA, $iv);
-  
-        $model2 = new LogAudit(); 
-        $model2->aktifitas = "Melakukan Pengecekan pada Sertifikat dengan No. Sertif ". $model1->noSertifikat .".";
-
-        $model2->save();
+        if (isset($model1)){
+            $encryptedMessage = $model1->encryptedMessage;
+    
+            // ==== DECRYPT ==== //
+            // Get the IV from the encrypted message
+            $iv = substr($encryptedMessage, 0, 16);
+    
+            // Get the ciphertext from the encrypted message
+            $ciphertext = substr($encryptedMessage, 16);
+    
+            // Decrypt the ciphertext using the IV and AES-256-CBC
+            $decryptedMessage = openssl_decrypt($ciphertext, 'aes-256-cbc', $setting->encryptionKey, OPENSSL_RAW_DATA, $iv);
+      
+            $model2 = new LogAudit(); 
+            $model2->aktifitas = "Melakukan Pengecekan pada Sertifikat dengan No. Sertif ". $model1->noSertifikat .".";
+    
+            $model2->save();
+        }
 
         return view('check', compact(
             'model1', 'dsa', 'decryptedMessage'
