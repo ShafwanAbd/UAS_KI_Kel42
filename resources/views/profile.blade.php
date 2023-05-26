@@ -13,7 +13,7 @@
 @endif
 
 <div class="container d-flex justify-content-center align-items-center"
-  style="max-width: 1200px; min-height: 1200px; margin-top: -30px;">
+  style="max-width: 1200px; min-height: 1400px; margin-top: -30px;">
 
   <div class="card border-0 shadow p-5" style="width: 32rem; ">
     <div class="card body top p-3">
