@@ -13,7 +13,7 @@
 <div class="container" style="margin: 15vh auto;">
 
     <div class="text-center" style="margin: 15vh auto;">
-        <h1>QRSave Innovation Center</h1>
+        <h1>QRSave</h1>
         <h6>Jl. Siliwangi, Tugujaya, Kec. Cihideung, Kab. Tasikmalaya, Jawa Barat 46126</h6>
     </div>
 
