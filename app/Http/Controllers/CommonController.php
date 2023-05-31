@@ -87,7 +87,7 @@ class CommonController extends Controller
         $user->save();
 
         $model1 = new LogAudit(); 
-        $model1->aktifitas = "Berhasil Memperbaharui Profile.";
+        $model1->aktifitas = "Berhasil Memperbaharui Profile dengan ID ". Auth::user()->id .".";
 
         $model1->save();
 
@@ -101,10 +101,10 @@ class CommonController extends Controller
             DB::table('users')->where('id', Auth::user()->id)
                             ->update(['password' => bcrypt($request->new_pw)]);
 
-            $model1 = new LogAudit(); 
-            $model1->aktifitas = "Berhasil Memperbaharui Password.";
+            $model2 = new LogAudit(); 
+            $model2->aktifitas = "Berhasil Memperbaharui Password pada Akun dengan ID ". Auth::user()->id .".";
     
-            $model1->save();
+            $model2->save();
             
             return back()->with('success', 'Berhasil Memperbaharui Password');
         } else { 
