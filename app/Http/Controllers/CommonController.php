@@ -131,6 +131,7 @@ class CommonController extends Controller
             $model1->save();
     
             $dsa = DSA::loadPrivateKey($setting->privateKey); 
+            
             $message = (
                 $model1->created_at.
                 $model1->id.
