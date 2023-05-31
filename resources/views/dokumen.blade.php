@@ -185,6 +185,10 @@
               decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
               decoder.buildSelectMenu("select");
               decoder.play();
+              
+              $('select').on('change', function(){
+                  decoder.stop().play();
+              });
             });
 
             // Close ModalScan event handler
