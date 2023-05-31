@@ -47,8 +47,7 @@
                         $model1->keikutsertaan.
                         $model1->updated_at
                     );     
-
-                    // Seharusnya pake $dsa
+                    
                     ($message == $decryptedMessage) ? $message1 = 1 : $message1 = 0;   
                     $dsa->verify($message, $model1->sign) ? $message2 = 1 : $message2 = 0;   
 
